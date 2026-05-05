@@ -12,20 +12,16 @@
 
     #use an open source LLm (llsomething) that doesn't cost tokens
 
-# pip install this dependency if you don't have this already
-# pip install openai
-
-import openai
-
-# aren't we using gemini? shouldn't we be importing that?
+import google.generativeai as genai
 
 #user-defined functions go here, before the main() function (is a python coding convention)
 def generate_response(user_input):
     try:
         #call the open ai api to generate a response
-        completion =openai.ChatCompletion.create(
+        completion =genai.ChatCompletion.create(
             #find the model pricing page at open ai and examine your token usage with different models.
-            model="gpt-3.5-turbo"  # (replace with ai actually using)
+            model="gpt-3.5-turbo"
+        # (replace with ai actually using)
 
             messages= [{"role": "system", "content": "Assume the role of a Python teacher, and think step by step. Your name is Skippy Py."},
                    {"role": "user", "content": user_input}]
@@ -44,7 +40,7 @@ def main():
     # my API key from Gemini
     # i think I did this correctly but not sure
 
-    googlegemini.api_key="AIzaSyCj0C1oH5keToqOv0pVmbw-XiKnZReTMrw"
+    genai.configure(api_key="AIzaSyCj0C1oH5keToqOv0pVmbw-XiKnZReTMrw")
 
     print("\nWelcome to the Python Study Bot! Type 'quit' to exit.\n")
 
