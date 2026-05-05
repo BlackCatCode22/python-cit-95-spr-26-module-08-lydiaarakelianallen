@@ -17,18 +17,15 @@ import google.generativeai as genai
 #user-defined functions go here, before the main() function (is a python coding convention)
 def generate_response(user_input):
     try:
-        #call the open ai api to generate a response
-        completion =genai.ChatCompletion.create(
-            #find the model pricing page at open ai and examine your token usage with different models.
-            model="gpt-3.5-turbo"
-        # (replace with ai actually using)
+        #find the model pricing page at open ai and examine your token usage with different models.
+        model=genai.GenerativeModel("gemini-2.5-flash")
 
-            messages= [{"role": "system", "content": "Assume the role of a Python teacher, and think step by step. Your name is Skippy Py."},
-                   {"role": "user", "content": user_input}]
+        #call the open ai api to generate a response
+        response = model.generate_content(
+             f"Assume the role of a Python teacher, and think step by step. Your name is Thing One.\n User: {user_input}"
         )
 
-        response_text = completion["choices"][0]["message"]["content"]
-        return response_text
+        return response.text
 
     except Exception as e:
         # print an error message if the API call fails
