@@ -35,8 +35,6 @@ def generate_response(user_input):
 
 def main():
     # my API key from Gemini
-    # i think I did this correctly but not sure
-
     genai.configure(api_key="AIzaSyCj0C1oH5keToqOv0pVmbw-XiKnZReTMrw")
 
     print("\nWelcome to the Python Study Bot! Type 'quit' to exit.\n")
