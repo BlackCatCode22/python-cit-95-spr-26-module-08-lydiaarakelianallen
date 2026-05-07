@@ -12,17 +12,19 @@
 
     #use an open source LLm (llsomething) that doesn't cost tokens
 
-import google.generativeai as genai
+#import google.generativeai as genai
+from google import genai
 
 #user-defined functions go here, before the main() function (is a python coding convention)
 def generate_response(user_input):
     try:
         #find the model pricing page at open ai and examine your token usage with different models.
-        model=genai.GenerativeModel("gemini-2.5-flash")
+        #model=genai.GenerativeModel("gemini-2.5-flash")
 
         #call the open ai api to generate a response
-        response = model.generate_content(
-             f"Assume the role of a Python teacher, and think step by step. Your name is Thing One.\n User: {user_input}"
+        response = client.model.generate_content(
+            model="gemini-2.5-flash",
+             contents=f"Assume the role of a Python teacher, and think step by step. Your name is Thing One.\n User: {user_input}"
         )
 
         return response.text
@@ -35,7 +37,8 @@ def generate_response(user_input):
 
 def main():
     # my API key from Gemini
-    genai.configure(api_key="AIzaSyCj0C1oH5keToqOv0pVmbw-XiKnZReTMrw")
+#    genai.configure(api_key="AIzaSyCj0C1oH5keToqOv0pVmbw-XiKnZReTMrw")
+    client = genai.Client(api_key="YOUR_KEY")
 
     print("\nWelcome to the Python Study Bot! Type 'quit' to exit.\n")
 
