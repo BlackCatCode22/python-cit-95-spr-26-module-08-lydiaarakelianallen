@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page_title }}</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 20px;
+            color: #fff;
+        }
+
+        h1 {
+            font-size: 2.6em;
+            font-weight: 300;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.4);
+        }
+
+        .subtitle {
+            font-size: 0.95em;
+            color: rgba(255,255,255,0.5);
+            letter-spacing: 1px;
+            margin-bottom: 50px;
+        }
+
+        .cards-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            justify-content: center;
+            max-width: 1100px;
+            width: 100%;
+        }
+
+        .weather-card {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 20px;
+            padding: 35px 30px;
+            min-width: 280px;
+            flex: 1;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+
+        .weather-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+        }
+
+        .card-city {
+            font-size: 1.3em;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: rgba(255,255,255,0.85);
+            margin-bottom: 20px;
+        }
+
+        .card-temp {
+            font-size: 5em;
+            font-weight: 700;
+            line-height: 1;
+            background: linear-gradient(180deg, #fff 60%, rgba(255,255,255,0.5));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 5px;
+        }
+
+        .card-unit {
+            font-size: 1.1em;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 18px;
+        }
+
+        .card-conditions {
+            font-size: 1.15em;
+            color: rgba(255,255,255,0.75);
+        }
+
+        .card-wind {
+            font-size: 0.85em;
+            color: rgba(255,255,255,0.4);
+            margin-top: 10px;
+        }
+
+        .card-unavailable { opacity: 0.5; }
+        .card-unavailable .card-temp { font-size: 2.5em; }
+
+        .bonus-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #f6d365, #fda085);
+            color: #333;
+            font-size: 0.6em;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-left: 8px;
+            vertical-align: middle;
+            text-transform: uppercase;
+        }
+
+        .errors {
+            margin-top: 30px;
+            color: rgba(255,100,100,0.8);
+            font-size: 0.85em;
+            text-align: center;
+        }
+
+        footer {
+            margin-top: 50px;
+            font-size: 0.8em;
+            color: rgba(255,255,255,0.25);
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+    <h1>&#9728; Weather Dashboard</h1>
+    <p class="subtitle">Live conditions &mdash; National Weather Service &amp; Open-Meteo</p>
+
+    <div class="cards-grid">
+
+        {% if fresno %}
+        <div class="weather-card">
+            <div class="card-city">{{ fresno.city }}</div>
+            <div class="card-temp">{{ fresno.temperature }}</div>
+            <div class="card-unit">&deg;{{ fresno.unit }}</div>
+            <div class="card-conditions">{{ fresno.conditions }}</div>
+            <div class="card-wind">Wind: {{ fresno.wind }}</div>
+        </div>
+        {% else %}
+        <div class="weather-card card-unavailable">
+            <div class="card-city">Fresno, CA</div>
+            <div class="card-temp">--</div>
+            <div class="card-unit">&deg;F</div>
+            <div class="card-conditions">Data Unavailable</div>
+        </div>
+        {% endif %}
+
+        {% if new_york %}
+        <div class="weather-card">
+            <div class="card-city">{{ new_york.city }}</div>
+            <div class="card-temp">{{ new_york.temperature }}</div>
+            <div class="card-unit">&deg;{{ new_york.unit }}</div>
+            <div class="card-conditions">{{ new_york.conditions }}</div>
+            <div class="card-wind">Wind: {{ new_york.wind }}</div>
+        </div>
+        {% else %}
+        <div class="weather-card card-unavailable">
+            <div class="card-city">New York, NY</div>
+            <div class="card-temp">--</div>
+            <div class="card-unit">&deg;F</div>
+            <div class="card-conditions">Data Unavailable</div>
+        </div>
+        {% endif %}
+
+        {% if london %}
+        <div class="weather-card">
+            <div class="card-city">
+                {{ london.city }}
+                <span class="bonus-badge">+5 Bonus</span>
+            </div>
+            <div class="card-temp">{{ london.temperature }}</div>
+            <div class="card-unit">&deg;{{ london.unit }}</div>
+            <div class="card-conditions">{{ london.conditions }}</div>
+            <div class="card-wind">via Open-Meteo API</div>
+        </div>
+        {% else %}
+        <div class="weather-card card-unavailable">
+            <div class="card-city">London, UK <span class="bonus-badge">+5 Bonus</span></div>
+            <div class="card-temp">--</div>
+            <div class="card-unit">&deg;F</div>
+            <div class="card-conditions">Data Unavailable</div>
+        </div>
+        {% endif %}
+
+    </div>
+
+    {% if errors %}
+    <div class="errors">
+        <strong>Errors:</strong><br>
+        {% for err in errors %}{{ err }}<br>{% endfor %}
+    </div>
+    {% endif %}
+
+    <footer>Data sourced from api.weather.gov &amp; api.open-meteo.com</footer>
+</body>
+</html>

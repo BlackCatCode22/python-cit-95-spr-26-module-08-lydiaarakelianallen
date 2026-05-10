@@ -16,17 +16,18 @@
 from google import genai
 
 #user-defined functions go here, before the main() function (is a python coding convention)
-def generate_response(user_input):
+def generate_response(user_input, client):
     try:
         #find the model pricing page at open ai and examine your token usage with different models.
         #model=genai.GenerativeModel("gemini-2.5-flash")
 
         #call the open ai api to generate a response
-        response = client.model.generate_content(
+        response = client.models.generate_content(
             model="gemini-2.5-flash",
              contents=f"Assume the role of a Python teacher, and think step by step. Your name is Thing One.\n User: {user_input}"
         )
 
+        print(response)
         return response.text
 
     except Exception as e:
@@ -37,8 +38,7 @@ def generate_response(user_input):
 
 def main():
     # my API key from Gemini
-#    genai.configure(api_key="AIzaSyCj0C1oH5keToqOv0pVmbw-XiKnZReTMrw")
-    client = genai.Client(api_key="YOUR_KEY")
+    client = genai.Client(api_key="AIzaSyAg2irkQOm0yjVPuRR6e3Byr2ngdEbHv2s")
 
     print("\nWelcome to the Python Study Bot! Type 'quit' to exit.\n")
 
@@ -53,7 +53,7 @@ def main():
             break
 
         # Gererate a response using OpenAI's GPT-3.5-turbo (Gemini?)
-        response = generate_response(user_input)
+        response = generate_response(user_input, client)
 
         #print the response
         print("Python Study Bot: ", response)
